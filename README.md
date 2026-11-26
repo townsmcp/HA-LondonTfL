@@ -92,7 +92,7 @@ Things to know:
 
 ### Dashboard cards
 
-These use only the cards built into Home Assistant. Add a **Manual** card and paste the YAML.
+These use only the cards built into Home Assistant. Add a **Manual** card and paste the YAML. The Markdown card's `content: |` matters: with `content: >` YAML joins all the lines into one and the headings and line list run together.
 
 A card listing every announced strike, which only appears when there is one:
 
@@ -106,7 +106,7 @@ visibility:
   - condition: state
     entity: sensor.london_tfl_strikes
     state_not: unavailable
-content: >
+content: |
   {% set live = state_attr('sensor.london_tfl_strikes', 'affected_now') or [] %}
   {% set strikes = state_attr('sensor.london_tfl_strikes', 'strikes') or [] %}
   {% if live %}
@@ -125,6 +125,10 @@ content: >
   {% endfor %}
 ```
 
+<img src="images/strike_card.png" alt="Strike list card on a strike day" width="420">
+
+*On a strike day: each line's live status, then the announced strikes (cropped after the first; the 19–20 December strike follows in the same format).*
+
 At-a-glance tiles:
 
 ```yaml
@@ -139,6 +143,8 @@ cards:
     entity: binary_sensor.london_tfl_strike_within_7_days
     name: Strike this week
 ```
+
+<img src="images/strike_tiles.png" alt="Strike today and strike this week tiles" width="500">
 
 ### Notification example
 
